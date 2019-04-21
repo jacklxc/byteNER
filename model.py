@@ -3,14 +3,16 @@ Build a NERModel
 """
 
 from ChainCRF import ChainCRF, create_custom_objects
-
-from keras.layers import Dense, Dropout, add, Input, Reshape, Lambda, concatenate
+import tensorflow as tf
+sess = tf.Session()
+import keras.backend as K
+K.set_session(sess)
+from keras.layers import Dense, Dropout, Add, Input, Reshape, Lambda, Concatenate
 from keras.layers import Embedding
 from keras.layers import LSTM, Bidirectional, TimeDistributed
 from keras.layers import Conv1D
 from keras.models import Model, load_model
 from keras.optimizers import SGD, Adam, RMSprop
-from keras import backend as K
 import keras
 print keras.__version__
 
@@ -157,7 +159,7 @@ class NERModel(object):
                     to_concat.append(x)
 
                 if len(to_concat) > 1:
-                    x = concatenate(to_concat, axis=2)
+                    x = Concatenate()(to_concat, axis=2)
                 x = Dropout(rate=dropout)(x)  # dropout after embedding layer
             else:
                 x = None
@@ -200,7 +202,7 @@ class NERModel(object):
                 # if running embedding features through CNN, process inputs here
                 if byte_layer_for_embed:
                     if x is not None and x2 is not None:
-                        x = concatenate([x, x2])
+                        x = Concatenate()([x, x2])
                     elif x2 is not None:
                         x = x2
                     elif x is not None:
@@ -213,12 +215,12 @@ class NERModel(object):
                     if residual and y_prev is not None:
                         if skip_residuals:
                             if skip_residuals_counter:
-                                x = add([x, y_prev])
+                                x = Add()([x, y_prev])
                                 skip_residuals_counter = 0
                             else:
                                 skip_residuals_counter = 1
                         else:
-                            x = add([x, y_prev])
+                            x = Add()([x, y_prev])
 
                     y_prev = y
                     y = Conv1D(filters=filters, kernel_size=kernel_size, padding=padding, activation=act)(x)
@@ -232,7 +234,7 @@ class NERModel(object):
 
                 if byte_layer_for_embed:
                     if x is not None and x2 is not None:
-                        x = concatenate([x, x2])
+                        x = Concatenate()([x, x2])
                     elif x2 is not None:
                         x = x2
                     elif x is not None:
@@ -250,7 +252,7 @@ class NERModel(object):
             # if not running embedding features through CNN, process inputs here
             if not byte_layer_for_embed:
                 if x is not None and x2 is not None:
-                    x = concatenate([x, x2])
+                    x = Concatenate()([x, x2])
                 elif x2 is not None:
                     x = x2
                 elif x is not None:

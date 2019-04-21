@@ -239,7 +239,7 @@ def gen_bpe_code_file(data_file, num_operations, codes_file):
 
     # run algorithm to learn byte pair encodings
     devnull = open(os.devnull, 'wb')
-    p2 = Popen([os.path.abspath(os.path.dirname(__file__)) + "/subword-nmt/learn_bpe.py", "-s", str(num_operations)], stdin=PIPE, stdout=PIPE, stderr=devnull)
+    p2 = Popen([os.path.abspath(os.path.dirname(__file__)) + "/subword_nmt/learn_bpe.py", "-s", str(num_operations)], stdin=PIPE, stdout=PIPE, stderr=devnull)
     stdout, stderr = p2.communicate(input=train_input)
 
     with open(codes_file, 'wb') as c:
@@ -702,7 +702,7 @@ def load_bpe_embeddings_data(data_file, vocab_dict, codes_file, output_file, par
                 sentence_batch_str = '\n'.join(sentence_batch)  # if extra whitespace, bpe code will disregard
                 sentence_batch = sentence_batch_str.split('\n')
                 sentence_batch = [x for x in sentence_batch if x]
-                p2 = Popen([os.path.abspath(os.path.dirname(__file__)) + "/subword-nmt/apply_bpe.py", "-c", codes_file], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+                p2 = Popen([os.path.abspath(os.path.dirname(__file__)) + "/subword_nmt/apply_bpe.py", "-c", codes_file], stdin=PIPE, stdout=PIPE, stderr=PIPE)
                 stdout, stderr = p2.communicate(input=sentence_batch_str)
                 if stderr:
                     print stderr

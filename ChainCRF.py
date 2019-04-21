@@ -38,7 +38,7 @@ if K._BACKEND == 'tensorflow':
             equal to reference[1:batch_size, indices]
         '''
         batch_size = K.shape(reference)[0]
-        indices = tf.pack([tf.range(batch_size), indices], axis=1)
+        indices = tf.stack([tf.range(batch_size), indices], axis=1)
         return tf.gather_nd(reference, indices)
 else:
     import theano.tensor as T
@@ -344,8 +344,8 @@ class ChainCRF(Layer):
 
     def _fetch_mask(self):
         mask = None
-        if self.inbound_nodes:
-            mask = self.inbound_nodes[0].input_masks[0]
+        #if self.inbound_nodes:
+        #    mask = self.inbound_nodes[0].input_masks[0]
         return mask
 
     def build(self, input_shape):

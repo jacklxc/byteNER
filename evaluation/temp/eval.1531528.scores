@@ -1,0 +1,7 @@
+processed 1070 tokens with 24 phrases; found: 1070 phrases; correct: 0.
+accuracy:   0.09%; precision:   0.00%; recall:   0.00%; FB1:   0.00
+     celltypeline: precision:   0.00%; recall:   0.00%; FB1:   0.00  45
+cellularcomponent: precision:   0.00%; recall:   0.00%; FB1:   0.00  932
+ organismsspecies: precision:   0.00%; recall:   0.00%; FB1:   0.00  93
+      proteingene: precision:   0.00%; recall:   0.00%; FB1:   0.00  0
+    smallmolecule: precision:   0.00%; recall:   0.00%; FB1:   0.00  0
